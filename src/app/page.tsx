@@ -29,7 +29,7 @@ export default function Home() {
       </Head>
       <main className='w-10/12 mx-auto my-5'>
         <h1 className='text-4xl'>Generador de imágenes</h1>
-        <div className='flex'>
+        <div className='flex gap-5'>
           {images &&
             images.map(({ id, url }) => (
               <div key={id}>
