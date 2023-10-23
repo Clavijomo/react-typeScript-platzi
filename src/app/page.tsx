@@ -2,7 +2,7 @@
 
 import Head from 'next/head'
 import RandomFox from './components/RandomFox';
-import { useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 
 type ImageItems = {
   id: string,
@@ -12,13 +12,15 @@ type ImageItems = {
 export default function Home() {
   const random = () => Math.floor(Math.random() * 123) + 1;
   const generateId = () => Math.random().toString(36).substr(2, 9);
-  const [images, setImages] = useState<Array<ImageItems>>([
-    { id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg` },
-    { id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg` },
-    { id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg` },
-    { id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg` },
-    { id: generateId(), url: `https://randomfox.ca/images/${random()}.jpg` }
-  ]);
+  const [images, setImages] = useState<Array<ImageItems>>([]);
+
+  const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {
+    const newImageItem: ImageItems = {
+      id: generateId(),
+      url: `https://randomfox.ca/images/${random()}.jpg`
+    }
+    setImages([...images,newImageItem]);
+  }
 
   return (
     <div>
@@ -29,17 +31,19 @@ export default function Home() {
       </Head>
       <main className='w-10/12 mx-auto my-5'>
         <h1 className='text-4xl'>Generador de imágenes de zorritos</h1>
-        <div className='flex gap-5'>
+        <div className='flex gap-5 flex-wrap'>
           {images &&
             images.map(({ id, url }) => (
               <div key={id}>
                 <RandomFox
                   image={url}
+                  alt={'Imagen'}
                 />
               </div>
             ))
           }
         </div>
+        <button className="bg-blue-500 p-3 rounded-lg my-5 text-white" onClick={(event) => addNewFox(event)}>Añadir zorrito</button>
       </main>
     </div>
   );
