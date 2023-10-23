@@ -28,7 +28,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className='w-10/12 mx-auto my-5'>
-        <h1 className='text-4xl'>Generador de imagen de zorritos</h1>
+        <h1 className='text-4xl'>Generador de imágenes</h1>
         <div className='flex'>
           {images &&
             images.map(({ id, url }) => (
