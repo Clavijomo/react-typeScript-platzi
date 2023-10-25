@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ImgHTMLAttributes, useEffect, useRef, useState } from 'react'
 
-type Props = {
+type LazyImageProps = {
   image: string;
   alt: string
 }
 
-const RandomFox = ({ image, alt }: Props): JSX.Element => {
+type ImageNative = ImgHTMLAttributes<HTMLImageElement>
+type Props = LazyImageProps & ImageNative;
+
+const LazyImage = ({ image, ...imgProps }: Props): JSX.Element => {
   const [source, setSource] = useState("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIwIiBoZWlnaHQ9IjMyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiLz4");
   const node = useRef<HTMLImageElement>(null);
   useEffect(() => {
@@ -33,12 +36,10 @@ const RandomFox = ({ image, alt }: Props): JSX.Element => {
     <img
       className='rounded-lg shadow-xl'
       ref={node}
-      width={320}
-      height='auto'
       src={source}
-      alt={alt}
+      {...imgProps}      
     />
   );
 }
 
-export default RandomFox;
+export default LazyImage;

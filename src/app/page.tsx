@@ -1,25 +1,20 @@
 'use client'
 
 import Head from 'next/head'
-import RandomFox from './components/RandomFox';
 import { MouseEventHandler, useState } from 'react';
-
-type ImageItems = {
-  id: string,
-  url: string,
-}
+import LazyImage from './components/RandomFox';
 
 export default function Home() {
   const random = () => Math.floor(Math.random() * 123) + 1;
   const generateId = () => Math.random().toString(36).substr(2, 9);
-  const [images, setImages] = useState<Array<ImageItems>>([]);
+  const [images, setImages] = useState<Array<IFoxImageItem>>([]);
 
   const addNewFox: MouseEventHandler<HTMLButtonElement> = (event) => {
-    const newImageItem: ImageItems = {
+    const newImageItem: IFoxImageItem = {
       id: generateId(),
       url: `https://randomfox.ca/images/${random()}.jpg`
     }
-    setImages([...images,newImageItem]);
+    setImages([...images, newImageItem]);
   }
 
   return (
@@ -34,14 +29,18 @@ export default function Home() {
         <div className='flex gap-5 flex-wrap'>
           {images &&
             images.map(({ id, url }) => (
-              <div key={id}>
-                <RandomFox
+              <div key={id} className="p-4">
+                <LazyImage
                   image={url}
-                  alt={'Imagen'}
+                  className="rounded-lg shadow-xl bg-gray-300"
+                  width={320}
+                  title="Random fox"
+                  height="auto"
+                  onClick={() => console.log("Hey")}
+                  alt={"Imagen zorrito"}
                 />
               </div>
-            ))
-          }
+            ))}
         </div>
         <button className="bg-blue-500 p-3 rounded-lg my-5 text-white" onClick={(event) => addNewFox(event)}>Añadir zorrito</button>
       </main>
